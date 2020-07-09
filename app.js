@@ -8,7 +8,16 @@ app.set("view engine", "ejs");
 
 
 app.get("/", function (req, res) {
-   res.send("Hello")
+    var today = new Date();
+    var currentDay = new Date().getDate();
+    var day = "";
+    if (currentDay == 9 || currentDay == 5) {
+        day = "The weekend is here , parte after parte";
+          res.render("list", { kindOfDay: day });
+
+    } else {
+        res.send("You have to work harder and longer man");
+    }
 });
 
 app.listen(3000, function () {
