@@ -1,0 +1,30 @@
+{
+  "name": "to-do-list",
+  "version": "1.0.0",
+  "description": "A javascript to do list app using express ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewtonKamau/Todo-list-express.git"
+  },
+  "keywords": [
+    "to-do",
+    "list",
+    "express",
+    "node"
+  ],
+  "author": "Newton Kamau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NewtonKamau/Todo-list-express/issues"
+  },
+  "homepage": "https://github.com/NewtonKamau/Todo-list-express#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
+  }
+}
