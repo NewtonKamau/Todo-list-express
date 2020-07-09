@@ -37,12 +37,6 @@ app.get("/", function (req, res) {
       console.log("Error current day = " + currentDay);
   }
 
-  // if (currentDay == 9 || currentDay == 5) {
-  //     day = "The weekend is here , parte after parte";
-
-  // } else {
-  //     day = "weekday";
-  // }
   res.render("list", { kindOfDay: day });
 });
 
