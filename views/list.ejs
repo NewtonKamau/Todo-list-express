@@ -11,10 +11,14 @@
   <li>Buy the food</li>
   <li>Cook the food</li>
   <li>Eat it all </li>
+  <% for (i = 0; i < newListItems.length; i++){ %>
+      <li><%= newListItems[i] %></li>
+ <% } %>
+  
 </ul>
   <form action="/" method="POST">
   <input type="text" name="newItem" placeholder="my to-do today">
-    <button class="btn btn-lg " name="button" type="submit">Schedule</button>
+    <button  name="button" type="submit">Schedule</button>
   </form>
   </body>
 </html>
