@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css">
     <title>To-Do List</title>
   </head>
   <body>
 <h1> <%= kindOfDay %> </h1>
+<h2>What is your goal today ?</h2>
 <ul>
-  <li>Buy the food</li>
-  <li>Cook the food</li>
-  <li>Eat it all </li>
   <% for (i = 0; i < newListItems.length; i++){ %>
       <li><%= newListItems[i] %></li>
  <% } %>
