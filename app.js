@@ -21,7 +21,25 @@ var itemsShema = new mongoose.Schema({
     required : [true, "Name is required"]
   }
 });
-
+//create model
+const Item = mongoose.model("Item", itemsShema);
+//create default models
+const work = new Item({
+      name : "work out"
+});
+const lunch = new Item({
+  name: "Eat lunch at 1"
+});
+const meditation = new Item({
+  name: "meditate and relax at 4pm"
+});
+// Item.insertMany(work, lunch, meditation, function (err, Item) {
+//   if (err);
+//   console.log(err);
+//   console.log('Data saved to the db');
+// });
+const defaultList = [work, lunch, meditation];
+// console.log(defaultList);
 let items = [];
 let workItems = ["Go running", "get a job this month"];
 //get home page route
