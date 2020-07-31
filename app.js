@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require('mongoose');
 const date = require(__dirname + "/date.js");
 
 
@@ -9,6 +10,18 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+//connection to the mongoose db
+mongoose.connect("mongodb://localhost:27017/todolistDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+var itemsShema = new mongoose.Schema({
+  name: {
+    type: String,
+    required : [true, "Name is required"]
+  }
+});
+
 let items = [];
 let workItems = ["Go running", "get a job this month"];
 //get home page route
