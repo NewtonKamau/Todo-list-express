@@ -2,9 +2,8 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const date = require(__dirname + "/date.js");
-
 
 const app = express();
 app.set("view engine", "ejs");
@@ -15,38 +14,48 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-var itemsShema = new mongoose.Schema({
+const itemsShema = new mongoose.Schema({
   name: {
     type: String,
-    required : [true, "Name is required"]
-  }
+    required: [true, "Name is required"],
+  },
 });
 //create model
 const Item = mongoose.model("Item", itemsShema);
-//create default models
+//create default items
 const work = new Item({
-      name : "work out"
+  name: "work out",
 });
 const lunch = new Item({
-  name: "Eat lunch at 1"
+  name: "Eat lunch at 1",
 });
 const meditation = new Item({
-  name: "meditate and relax at 4pm"
+  name: "meditate and relax at 4pm",
 });
-// Item.insertMany(work, lunch, meditation, function (err, Item) {
-//   if (err);
-//   console.log(err);
-//   console.log('Data saved to the db');
-// });
-const defaultList = [work, lunch, meditation];
-// console.log(defaultList);
-let items = [];
+//store the default items in an array
+const defaultItems = [work, lunch, meditation];
+ 
 let workItems = ["Go running", "get a job this month"];
 //get home page route
 app.get("/", function (req, res) {
-  let day = date.getDate();
-  res.render("list", { listTitle: day, newListItems: items });
-});
+  Item.find({}, function (err, foundItems) {
+    if (foundItems === 0) {
+   Item.insertMany(defaultItems, function (err) {
+     if (err) {
+       console.log(err);
+     } else {
+       console.log("Data saved to the db");
+     }
+   });
+      res.redirect('/');
+    } else {
+        res.render("list", { listTitle: day, newListItems: foundItems });
+      }
+     });
+  
+    let day = date.getDate();
+  });
+
 //post action to home page
 app.post("/", function (req, res) {
   let item = req.body.newItem;
