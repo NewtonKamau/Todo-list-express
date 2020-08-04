@@ -58,16 +58,14 @@ app.get("/", function (req, res) {
 
 //post action to home page
 app.post("/", function (req, res) {
-  let item = req.body.newItem;
-  let button = req.body.list;
-  if (button === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+  const itemName = req.body.newItem;
+  const item = new Item({
+    name: itemName
+  });
+  item.save();
+  res.redirect('/');
 });
+
 app.get("/work", function (req, res) {
   res.render("list", { listTitle: "Work list", newListItems: workItems });
 });
