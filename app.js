@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 //connection to the mongoose db
 mongoose.connect(
-  "mongodb+srv://admin-newton:admin123@cluster0.smtqs.azure.mongodb.net/todolistDB",
+  "mongodb+srv://<atlas-dbNameAndPassword>.smtqs.azure.mongodb.net/todolistDB",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
