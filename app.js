@@ -11,10 +11,13 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 //connection to the mongoose db
-mongoose.connect("mongodb://localhost:27017/todolistDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://admin-newton:admin123@cluster0.smtqs.azure.mongodb.net/todolistDB",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 let day = date.getDate();
 //create schema
 const itemsShema = new mongoose.Schema({
@@ -137,6 +140,6 @@ app.post("/delete", function (req, res) {
     }
 });
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log("Server started on port 3000.");
 });
