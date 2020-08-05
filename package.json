@@ -19,7 +19,7 @@
   "author": "Newton Kamau",
   "license": "ISC",
   "engines": {
-    "node": "14.7.x"
+    "node": "14.7.0"
   },
   "bugs": {
     "url": "https://github.com/NewtonKamau/Todo-list-express/issues"
