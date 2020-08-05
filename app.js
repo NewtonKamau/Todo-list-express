@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const date = require(__dirname + "/date.js");
+const _ = require("lodash");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -14,6 +15,7 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+let day = date.getDate();
 //create schema
 const itemsShema = new mongoose.Schema({
   name: {
@@ -24,17 +26,17 @@ const itemsShema = new mongoose.Schema({
 //create model
 const Item = mongoose.model("Item", itemsShema);
 //create default items
-const work = new Item({
-  name: "work out",
+const welcome = new Item({
+  name: "Welcome to your to do list app",
 });
-const lunch = new Item({
-  name: "Eat lunch at 1",
+const add = new Item({
+  name: "Press + to add new item",
 });
-const meditation = new Item({
-  name: "meditate and relax at 4pm",
+const clear = new Item({
+  name: "press the  checkbox to delete an item",
 });
 //store the default items in an array
-const defaultItems = [work, lunch, meditation];
+const defaultItems = [welcome, add, clear];
 
 //list schema
 const listSchema = {
@@ -61,12 +63,12 @@ app.get("/", function (req, res) {
     }
   });
 
-  let day = date.getDate();
+  
 });
 //dynamic route
 app.get("/:customListName", function (req, res) {
   //get the link parameters and store in a variable
-  const customListName = req.params.customListName;
+  const customListName = _.capitalize(req.params.customListName);
   //check if the link exist before creating one in the db
   List.findOne({ name: customListName }, function (err, foundList) {
     if (!err) {
@@ -102,6 +104,8 @@ app.post("/", function (req, res) {
      res.redirect("/");
   } else {
     List.findOne({ name: listName }, function (err, foundList) {
+      if (err)
+       console.log(err);
       foundList.items.push(item);
       foundList.save();
       res.redirect("/" + listName);
@@ -113,12 +117,24 @@ app.post("/", function (req, res) {
 app.post("/delete", function (req, res) {
   //grab the the clicked check box
   const checkedItemId = req.body.checkbox;
-  //use findAndRemove() taking the item id
-  Item.findByIdAndRemove(checkedItemId, function (err) {
-    if (err) console.log(err);
-    console.log("Item deleted successfully");
-    res.redirect("/");
-  });
+  const listName = req.body.listName;
+
+  if (listName === day) {
+      //use findAndRemove() taking the item id
+      Item.findByIdAndRemove(checkedItemId, function (err) {
+        if (err) console.log(err);
+        console.log("Item deleted successfully");
+        res.redirect("/");
+      });
+  } else {
+    List.findOneAndUpdate(
+      { name: listName },
+      { $pull: { items: { _id: checkedItemId } } },
+      function (err, foundList) {
+        if (!err) res.redirect("/" + listName);
+      }
+    );
+    }
 });
 
 app.listen(3000, function () {
