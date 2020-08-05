@@ -89,15 +89,31 @@ app.get("/:customListName", function (req, res) {
 
 //post action to home page
 app.post("/", function (req, res) {
+  //get the body items
   const itemName = req.body.newItem;
+  const listName = req.body.list;
+  //create a new item
   const item = new Item({
     name: itemName,
   });
-  item.save();
-  res.redirect("/");
+  //check the route title ,save new list based on the title 
+  if (listName === day) {
+     item.save();
+     res.redirect("/");
+  } else {
+    List.findOne({ name: listName }, function (err, foundList) {
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName);
+    });
+  }
+ 
 });
+//delete item from the db 
 app.post("/delete", function (req, res) {
+  //grab the the clicked check box
   const checkedItemId = req.body.checkbox;
+  //use findAndRemove() taking the item id
   Item.findByIdAndRemove(checkedItemId, function (err) {
     if (err) console.log(err);
     console.log("Item deleted successfully");
